@@ -1,0 +1,819 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>🐍 Snake PRO ULTRA</title>
+
+<!-- AdSense -->
+<script async
+src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9748469459025333"
+crossorigin="anonymous"></script>
+
+<style>
+
+*{
+box-sizing:border-box;
+}
+
+body{
+margin:0;
+font-family:Tahoma, Arial;
+background:#0f172a;
+color:white;
+text-align:center;
+overflow-x:hidden;
+}
+
+header{
+background:#1e293b;
+padding:15px;
+box-shadow:0 2px 10px rgba(0,0,0,.4);
+}
+
+header h1{
+margin:0;
+font-size:28px;
+color:#facc15;
+}
+
+header p{
+margin-top:5px;
+opacity:.8;
+}
+
+nav{
+background:#111827;
+padding:10px;
+position:sticky;
+top:0;
+z-index:999;
+display:flex;
+justify-content:center;
+flex-wrap:wrap;
+gap:8px;
+}
+
+nav button{
+padding:10px 14px;
+border:none;
+border-radius:10px;
+cursor:pointer;
+background:#facc15;
+font-weight:bold;
+transition:.2s;
+}
+
+nav button:hover{
+transform:scale(1.05);
+}
+
+section{
+display:none;
+padding:20px;
+animation:fade .3s;
+}
+
+.active{
+display:block;
+}
+
+@keyframes fade{
+from{opacity:0}
+to{opacity:1}
+}
+
+.box{
+background:#1e293b;
+padding:18px;
+margin:12px auto;
+border-radius:14px;
+max-width:900px;
+text-align:right;
+line-height:1.8;
+box-shadow:0 4px 15px rgba(0,0,0,.3);
+}
+
+canvas{
+background:#111827;
+display:block;
+margin:15px auto;
+border:4px solid #facc15;
+border-radius:10px;
+touch-action:none;
+max-width:95vw;
+}
+
+.scoreBox{
+font-size:20px;
+text-align:center;
+}
+
+.controls{
+margin-top:15px;
+}
+
+.controls button{
+padding:14px 18px;
+margin:5px;
+border:none;
+border-radius:12px;
+background:#334155;
+color:white;
+font-size:18px;
+cursor:pointer;
+transition:.2s;
+}
+
+.controls button:hover{
+background:#475569;
+transform:scale(1.05);
+}
+
+ul{
+padding-right:20px;
+}
+
+li{
+margin:8px 0;
+}
+
+a{
+color:#facc15;
+text-decoration:none;
+}
+
+footer{
+padding:20px;
+opacity:.7;
+font-size:14px;
+}
+
+@media(max-width:600px){
+
+header h1{
+font-size:22px;
+}
+
+.controls button{
+width:70px;
+height:55px;
+font-size:20px;
+}
+
+}
+
+</style>
+</head>
+
+<body>
+
+<header>
+<h1>🐍 Snake PRO ULTRA</h1>
+<p>نسخة احترافية سلسة للموبايل والكمبيوتر</p>
+</header>
+
+<!-- NAV -->
+<nav>
+<button onclick="show('home')">الرئيسية</button>
+<button onclick="show('game')">اللعبة</button>
+<button onclick="show('about')">من نحن</button>
+<button onclick="show('contact')">اتصل بنا</button>
+<button onclick="show('privacy')">الخصوصية</button>
+<button onclick="show('terms')">الشروط</button>
+</nav>
+
+<!-- HOME -->
+<section id="home" class="active">
+
+<div class="box">
+<h2>👋 أهلاً بك</h2>
+
+<p>
+استمتع بأقوى نسخة من لعبة الثعبان الكلاسيكية
+بتصميم عصري وسرعة فائقة.
+</p>
+
+<p>
+🔥 لعبة خفيفة وسريعة  
+📱 تعمل بسلاسة على الموبايل  
+🏆 تحدى نفسك وحطم أعلى سكور
+</p>
+
+</div>
+
+</section>
+
+<!-- GAME -->
+<section id="game">
+
+<div class="box scoreBox">
+🏆 Score:
+<span id="score">0</span>
+
+|
+
+🔥 High Score:
+<span id="high">0</span>
+</div>
+
+<canvas id="gameCanvas"></canvas>
+
+<div class="controls">
+<button onclick="setDir('UP')">⬆</button>
+<br>
+<button onclick="setDir('LEFT')">⬅</button>
+<button onclick="setDir('DOWN')">⬇</button>
+<button onclick="setDir('RIGHT')">➡</button>
+</div>
+
+<div class="controls">
+<button onclick="restartGame()">🔄 Restart</button>
+</div>
+
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+
+<div class="box">
+
+<h2>🐍 من نحن - لعبة الثعبان</h2>
+
+<p>
+أهلاً بيك في "الثعبان" 🐍
+</p>
+
+<p>
+احنا فريق صغير من محبي الألعاب الكلاسيكية
+اللي ترجعك لمتعة نوكيا زمان.
+هدفنا نقدملك نسخة عصرية وسلسة
+من لعبة الثعبان اللي كلنا بنحبها،
+من غير تعقيد ولا تسجيل دخول.
+</p>
+
+<h3>ليه عملنا اللعبة؟</h3>
+
+<p>
+عشان أوقات الزهق في المواصلات،
+أو لما تحب تتحدى نفسك وتكسر أعلى سكور.
+</p>
+
+<p>
+لعبة الثعبان مش مجرد تسلية،
+دي تركيز وسرعة بديهة.
+</p>
+
+<h3>رؤيتنا</h3>
+
+<p>
+نخلي الألعاب الكلاسيكية ترجع تاني،
+بتصميم نضيف وتجربة سريعة على أي موبايل.
+</p>
+
+<p>
+لو عندك فكرة تطوير أو عايز تقولنا رأيك ابعتلنا على:
+</p>
+
+<p>
+📧 <b>
+<a href="mailto:mahmadelhadedy2@gmail.com">
+mahmadelhadedy2@gmail.com
+</a>
+</b>
+</p>
+
+<p>
+❤️ شكراً لدعمك.
+العب وحطم السكور
+</p>
+
+</div>
+
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+
+<div class="box">
+
+<h2>📩 اتصل بنا - لعبة الثعبان</h2>
+
+<p>
+عندك سؤال، اقتراح،
+أو واجهت مشكلة في اللعبة؟
+يسعدنا نسمع منك ❤️
+</p>
+
+<h3>طرق التواصل</h3>
+
+<p>
+📧 البريد الإلكتروني:
+<br>
+
+<a href="mailto:mahmadelhadedy2@gmail.com">
+<b>
+mahmadelhadedy2@gmail.com
+</b>
+</a>
+
+</p>
+
+<p>
+⏰ بنرد خلال 48 ساعة في أيام العمل
+</p>
+
+<h3>نموذج الإبلاغ عن مشكلة</h3>
+
+<ul>
+<li>📱 نوع موبايلك وإصدار الأندرويد/iOS</li>
+<li>📸 سكرين شوت للمشكلة لو أمكن</li>
+<li>🎮 إيه اللي كنت بتعمله لما حصلت</li>
+</ul>
+
+<p>
+شكراً إنك بتلعب "الثعبان" ❤️
+</p>
+
+</div>
+
+</section>
+
+<!-- PRIVACY -->
+<section id="privacy">
+
+<div class="box">
+
+<h2>📄 سياسة الخصوصية - لعبة الثعبان</h2>
+
+<p><b>آخر تحديث:</b> 25 مايو 2026</p>
+
+<h3>1. البيانات اللي بنجمعها</h3>
+
+<p>
+لعبة "الثعبان" مصممة تكون بسيطة.
+احنا مش بنجمع أي بيانات شخصية منك.
+اللعبة بتشتغل أوفلاين ومش بتحتاج تسجيل دخول.
+</p>
+
+<p>
+البيانات الوحيدة اللي ممكن تتخزن على جهازك هي:
+</p>
+
+<ul>
+<li>🏆 أعلى سكور وصلتله وعدد مرات اللعب</li>
+<li>⚙️ إعدادات اللعبة زي الصوت والسرعة</li>
+</ul>
+
+<p>
+البيانات دي بتفضل على جهازك فقط ومش بتتبعت لنا.
+</p>
+
+<h3>2. الإعلانات</h3>
+
+<p>
+لو اللعبة فيها إعلانات،
+فمزود الإعلانات زي AdMob ممكن يجمع معرف إعلاني
+لتقديم إعلانات مناسبة.
+</p>
+
+<h3>3. أذونات التطبيق</h3>
+
+<p>
+اللعبة لا تطلب أي أذونات حساسة
+زي الكاميرا أو المايك أو الموقع.
+</p>
+
+<h3>4. الأطفال</h3>
+
+<p>
+اللعبة مناسبة لكل الأعمار
+ومش بنجمع بيانات من الأطفال تحت 13 سنة.
+</p>
+
+<h3>5. التغييرات</h3>
+
+<p>
+لو حدثنا السياسة دي
+هيتم تعديل التاريخ فوق.
+</p>
+
+<h3>6. التواصل</h3>
+
+<p>
+📧
+<a href="mailto:mahmadelhadedy2@gmail.com">
+<b>
+mahmadelhadedy2@gmail.com
+</b>
+</a>
+</p>
+
+</div>
+
+</section>
+
+<!-- TERMS -->
+<section id="terms">
+
+<div class="box">
+
+<h2>📜 الشروط والأحكام - لعبة الثعبان</h2>
+
+<p><b>آخر تحديث:</b> 25 مايو 2026</p>
+
+<h3>1. الترخيص</h3>
+
+<p>
+بنمنحك ترخيص شخصي وغير تجاري
+لاستخدام اللعبة للترفيه فقط.
+</p>
+
+<h3>2. قواعد الاستخدام</h3>
+
+<ul>
+<li>❌ ممنوع التعديل على ملفات اللعبة</li>
+<li>❌ ممنوع استخدام برامج غش أو هاك</li>
+<li>❌ ممنوع إعادة نشر اللعبة بدون إذن</li>
+</ul>
+
+<h3>3. الملكية الفكرية</h3>
+
+<p>
+كل حقوق اللعبة محفوظة لنا
+بما فيها التصميم والأكواد والشعار.
+</p>
+
+<h3>4. الإعلانات والمشتريات</h3>
+
+<p>
+اللعبة مجانية وقد تحتوي إعلانات.
+</p>
+
+<h3>5. إخلاء المسؤولية</h3>
+
+<p>
+اللعبة مقدمة كما هي،
+واحنا غير مسؤولين عن أي ضرر ناتج عن الاستخدام.
+</p>
+
+<h3>6. إنهاء الاستخدام</h3>
+
+<p>
+يمكن إيقاف استخدامك للعبة
+لو خالفت الشروط.
+</p>
+
+<h3>7. التواصل</h3>
+
+<p>
+📧
+<a href="mailto:mahmadelhadedy2@gmail.com">
+<b>
+mahmadelhadedy2@gmail.com
+</b>
+</a>
+</p>
+
+</div>
+
+</section>
+
+<footer>
+🐍 Snake PRO ULTRA © 2026
+</footer>
+
+<script>
+
+/* NAVIGATION */
+
+function show(id){
+
+document.querySelectorAll("section")
+.forEach(s=>s.classList.remove("active"));
+
+document.getElementById(id)
+.classList.add("active");
+
+}
+
+/* CANVAS */
+
+const canvas = document.getElementById("gameCanvas");
+const ctx = canvas.getContext("2d");
+
+let cell = 20;
+let canvasSize;
+
+/* RESPONSIVE */
+
+function resizeCanvas(){
+
+canvasSize = Math.min(window.innerWidth - 40, 420);
+
+canvas.width = canvasSize;
+canvas.height = canvasSize;
+
+}
+
+resizeCanvas();
+
+window.addEventListener("resize", resizeCanvas);
+
+/* GAME */
+
+let snake;
+let direction;
+let food;
+let score;
+let highScore;
+
+let speed = 120;
+let last = 0;
+let acc = 0;
+
+/* INIT */
+
+function init(){
+
+snake = [
+{x:8*cell,y:10*cell},
+{x:7*cell,y:10*cell},
+{x:6*cell,y:10*cell}
+];
+
+direction = "RIGHT";
+
+score = 0;
+
+highScore = localStorage.getItem("snakeHigh") || 0;
+
+food = randomFood();
+
+document.getElementById("high").innerText = highScore;
+document.getElementById("score").innerText = score;
+
+}
+
+init();
+
+/* FOOD */
+
+function randomFood(){
+
+let max = Math.floor(canvasSize / cell) - 1;
+
+return{
+
+x:Math.floor(Math.random()*max)*cell,
+y:Math.floor(Math.random()*max)*cell
+
+};
+
+}
+
+/* DIRECTION */
+
+function setDir(d){
+
+if(d==="LEFT" && direction!=="RIGHT") direction="LEFT";
+
+if(d==="RIGHT" && direction!=="LEFT") direction="RIGHT";
+
+if(d==="UP" && direction!=="DOWN") direction="UP";
+
+if(d==="DOWN" && direction!=="UP") direction="DOWN";
+
+}
+
+/* LOOP */
+
+function loop(t){
+
+requestAnimationFrame(loop);
+
+if(!last) last = t;
+
+let delta = t - last;
+
+last = t;
+
+acc += delta;
+
+if(acc > speed){
+
+update();
+
+acc = 0;
+
+}
+
+draw();
+
+}
+
+requestAnimationFrame(loop);
+
+/* UPDATE */
+
+function update(){
+
+let head = {...snake[0]};
+
+if(direction==="RIGHT") head.x += cell;
+if(direction==="LEFT") head.x -= cell;
+if(direction==="UP") head.y -= cell;
+if(direction==="DOWN") head.y += cell;
+
+/* WALL */
+
+if(
+head.x < 0 ||
+head.y < 0 ||
+head.x >= canvasSize ||
+head.y >= canvasSize
+){
+
+gameOver();
+return;
+
+}
+
+/* SELF */
+
+if(
+snake.some(s=>s.x===head.x && s.y===head.y)
+){
+
+gameOver();
+return;
+
+}
+
+/* EAT */
+
+if(head.x===food.x && head.y===food.y){
+
+score++;
+
+if(score % 5 === 0 && speed > 60){
+
+speed -= 8;
+
+}
+
+if(score > highScore){
+
+highScore = score;
+
+localStorage.setItem("snakeHigh", highScore);
+
+}
+
+food = randomFood();
+
+}else{
+
+snake.pop();
+
+}
+
+snake.unshift(head);
+
+/* UI */
+
+document.getElementById("score").innerText = score;
+document.getElementById("high").innerText = highScore;
+
+}
+
+/* DRAW */
+
+function draw(){
+
+ctx.fillStyle = "#111827";
+ctx.fillRect(0,0,canvas.width,canvas.height);
+
+/* FOOD */
+
+ctx.fillStyle = "red";
+
+ctx.fillRect(
+food.x,
+food.y,
+cell,
+cell
+);
+
+/* SNAKE */
+
+snake.forEach((part,index)=>{
+
+ctx.fillStyle =
+index===0
+? "#22c55e"
+: "#16a34a";
+
+ctx.fillRect(
+part.x,
+part.y,
+cell,
+cell
+);
+
+});
+
+}
+
+/* GAME OVER */
+
+function gameOver(){
+
+setTimeout(()=>{
+
+alert("💀 انتهت اللعبة\n🏆 Score: " + score);
+
+restartGame();
+
+},50);
+
+}
+
+/* RESTART */
+
+function restartGame(){
+
+speed = 120;
+
+init();
+
+}
+
+/* KEYBOARD */
+
+document.addEventListener("keydown",e=>{
+
+if(e.key==="ArrowLeft") setDir("LEFT");
+
+if(e.key==="ArrowRight") setDir("RIGHT");
+
+if(e.key==="ArrowUp") setDir("UP");
+
+if(e.key==="ArrowDown") setDir("DOWN");
+
+});
+
+/* MOBILE SWIPE */
+
+let startX = 0;
+let startY = 0;
+
+document.addEventListener("touchstart",e=>{
+
+startX = e.touches[0].clientX;
+startY = e.touches[0].clientY;
+
+},{passive:true});
+
+document.addEventListener("touchend",e=>{
+
+let dx =
+e.changedTouches[0].clientX - startX;
+
+let dy =
+e.changedTouches[0].clientY - startY;
+
+if(Math.abs(dx) > Math.abs(dy)){
+
+if(dx > 30){
+
+setDir("RIGHT");
+
+}else if(dx < -30){
+
+setDir("LEFT");
+
+}
+
+}else{
+
+if(dy > 30){
+
+setDir("DOWN");
+
+}else if(dy < -30){
+
+setDir("UP");
+
+}
+
+}
+
+});
+
+</script>
+
+</body>
+</html>
